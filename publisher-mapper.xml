@@ -39,17 +39,14 @@
 
     <select id="readEmpById" parameterType="_int" resultMap="empResultMap">
         <!--29. readEmpByI'D' 오타 때문에 자꾸 오류가 난 거 였음. 고침-->
-        SELECT A.EMP_ID,
-        A.EMP_NAME,
-        A.EMAIL,
-        B.DEPT_TITLE,
-        A.SALARY,
-        A.HIRE_DATE
-        FROM EMPLOYEE_LIST A
-        JOIN EMPLOYEE_DEPT B ON A.DEPT_CODE = B.DEPT_ID
+        SELECT *
+        FROM EMPLOYEE_LIST
         <!--28.WHERE 없는 걸 발견. 추가-->
-        WHERE A.EMP_ID = #{empId}
-        ORDER BY A.EMP_ID
+        WHERE EMP_ID = #{empId}
+        ORDER BY EMP_ID
+        <!-- 39. employee-dept table 내 DEPT_ID랑 DEPT_CODE JOIN해서 DEPT_CODE 대신 DEPT_TITLE 나오게 하고 싶었는데
+        deptCode='null'이라고 자꾸 떠서, 이유를 생각해보니 DTO에서 deptTitle를 출력할 수 있는 메소드를 만들어준 적이 없음.
+        readEmpById 내 JOIN 되어있던 걸 삭제해줌 -->
     </select>
 
     <insert id="createNewEmp" parameterType="com.ohgiraffers.practices.model.PublisherDTO0524">
