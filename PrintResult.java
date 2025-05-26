@@ -32,6 +32,8 @@ public class PrintResult {
             case "selectOne" : errorMsg = "해당 사번을 가진 직원 조회 실패"; break;
 
             case "insert" : errorMsg = "새 직원 정보 입력 실패"; break;
+            case "update" : errorMsg = "정보 업데이트 실패"; break;
+            case "delete" : errorMsg = "정보 삭제 실패"; break;
         }
         System.out.println(errorMsg);
     }
@@ -43,7 +45,10 @@ public class PrintResult {
         switch (insert){
             case "insert" :
                 successMsg = "새 직원 정보 입력 성공"; break;
-
+            case "update" :
+                successMsg = "직원 정보 업데이트 성공";break;
+            case "delete" :
+                successMsg = "정보 삭제 성공. 퇴사처리가 완료되었습니다."; break;
         }
         System.out.println(successMsg);
     }
