@@ -5,8 +5,9 @@ import com.ohgiraffers.practices.model.PublisherDTO0524;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
-public class controller0524 {
+public class Controller0524 {
     /*11. 캡슐화 이용, 출력결과값 저장할 PrintResult와
     실제 기능할 Class Service쪽으로 요청 보내기 위한 ProgramService 공간 생성(final 상수)
      */
@@ -17,7 +18,7 @@ public class controller0524 {
     // 17. 바로 아래 메소드 처음에 class 이름이랑 다른 걸로 만들었는데 자꾸 경고 떴음.
     // final로 선언한 게 잘못됐다고도 하고, 아래 public method를 public void로 만들어야한다고 하기도 하고..
     // 근데 method이름을 class명과 똑같이 하니 다 해결됨.
-    public controller0524() {
+    public Controller0524() {
         printResult = new PrintResult();
         empService = new EmpService();
     }
@@ -95,6 +96,39 @@ public class controller0524 {
             printResult.printErrorMsg("insert");
         }
     }
-     /* case 5 : empController.updateEmpInfo();break;
-     case 6 : empController.deleteEmpInfo();break; */
+
+    public void updateEmpInfo(Map<String, String> parameter) {
+        String name = parameter.get("empName");
+        String deptCode = parameter.get("deptCode");
+        int salary = Integer.parseInt(parameter.get("salary"));
+        String empCode = parameter.get("modiCode");
+
+        PublisherDTO0524 dto = new PublisherDTO0524();
+        dto.setEmpName(name);
+        dto.setDeptCode(deptCode);
+        dto.setSalary(salary);
+        dto.setEmpId(empCode);
+
+        if(empService.updatEmpInfo(dto)) {
+            printResult.printSuccessMsg("update");
+            // "update" successMsg 만듦
+        } else {
+            printResult.printErrorMsg("update");
+            // "update" errorMsg 만듦
+        }
+    }
+
+    public void deleteEmpInfo(int i) {
+        int empId = Integer.parseInt(String.valueOf(i));
+
+        PublisherDTO0524 dto = new PublisherDTO0524();
+        dto.setEmpId(String.valueOf(empId));
+
+        if(empService.deleteEmpInfo(dto)){
+            printResult.printSuccessMsg("delete");
+        } else {
+            printResult.printErrorMsg("delete");
+        }
+
+    }
 }
