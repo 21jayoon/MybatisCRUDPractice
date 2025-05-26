@@ -26,4 +26,14 @@ public class PublisherDAO0524 {
         /* 33. Mapped Statements collection does not contain value for PublisherMapper.insertInfo
          publisher-mapper.xml에 정해놨던 id에 따라 PublisherMapper.createNewEmp로 고침 */
     }
+
+    public static int updateInfo(SqlSession sqlSession, PublisherDTO0524 dto) {
+        return sqlSession.update("PublisherMapper.updateEmpInfo", dto);
+        // 37.PublisherMapper.updateMenu로 되어있어서 (updateMenu는 publisher-mapper에 없음)
+        // PublisherMapper.updateEmpInfo로 바꿔줌
+    }
+
+    public static int deleteInfo(SqlSession sqlSession, PublisherDTO0524 dto) {
+        return sqlSession.delete("PublisherMapper.deleteEmpInfo", dto);
+    }
 }
