@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0??EN"
+        "https://mybatis.org.dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PublisherMapper">
+    <resultMap id="empResultMap" type="com.ohgiraffers.practices.model.PublisherDTO0524">
+        <!-- 9. java에서 임의로 정한 변수명과 실제 DB에서의 컬럼명을 매핑시키기 위한 설정-->
+        <!-- type = DTO로 하는 이유? : getter, setter로 (임의변수명과 연결된) DB값을 갖고 오기 위해-->
+        <id property="empId" column="EMP_ID"/>
+        <!-- 식별자 칼럼 불러올 때는 <id/> 사용-->
+        <!-- 나머지 일반 컬럼들도 <result />로 전부 불러온다-->
+        <result property="empName" column="EMP_NAME"/>
+        <!-- 20. property="name"이었던 거 "empName"으로 고쳤더니 일단 전체 사원 목록은 뜬다!!-->
+        <result property="email" column="EMAIL"/>
+        <result property="deptCode" column="DEPT_CODE"/>
+        <result property="salary" column="SALARY"/>
+        <result property="hireDate" column="HIRE_DATE"/>
+    </resultMap>
+
+    <!-- 10. Run class에 있는 swtich문 복사해와서 select의 id와 resultMap 만들어준다-->
+    <select id="readAllEmp" resultMap="empResultMap">
+        SELECT *
+          FROM EMPLOYEE_LIST
+        ORDER BY EMP_ID
+    </select>
+
+    <select id="readEmpByDept" resultMap="empResultMap">
+        SELECT A.EMP_ID,
+               A.EMP_NAME,
+               A.EMAIL,
+               B.DEPT_TITLE,
+               A.SALARY,
+               A.HIRE_DATE
+          FROM EMPLOYEE_LIST A
+          JOIN EMPLOYEE_DEPT B ON A.DEPT_CODE = B.DEPT_ID
+         WHERE A.DEPT_CODE = #{code}
+         ORDER BY A.EMP_ID
+    </select>
+
+    <select id="readEmpById" parameterType="_int" resultMap="empResultMap">
+        <!--29. readEmpByI'D' 오타 때문에 자꾸 오류가 난 거 였음. 고침-->
+        SELECT A.EMP_ID,
+               A.EMP_NAME,
+               A.EMAIL,
+               B.DEPT_TITLE,
+               A.SALARY,
+               A.HIRE_DATE
+          FROM EMPLOYEE_LIST A
+          JOIN EMPLOYEE_DEPT B ON A.DEPT_CODE = B.DEPT_ID
+        <!--28.WHERE 없는 걸 발견. 추가-->
+         WHERE A.EMP_ID = #{empId}
+         ORDER BY A.EMP_ID
+    </select>
+
+    <insert id="createNewEmp" parameterType="com.ohgiraffers.practices.model.PublisherDTO0524">
+        INSERT INTO EMPLOYEE_LIST
+        (
+        EMP_ID,
+        EMP_NAME,
+        EMAIL,
+        DEPT_CODE,
+        SALARY,
+        HIRE_DATE
+        )
+        VALUES
+        (
+        #{ empId },
+        #{ empName },
+        <!--35. The error may exist in publisher-mapper.xml
+        >>> #{ name }에서 #{ empName }으로 수정-->
+        #{ email },
+        #{ deptCode },
+        #{ salary },
+        #{ hireDate }
+        <!--36.There is no getter for property named 'hiredDate' in 'class com.ohgiraffers.practices.model.PublisherDTO0524'
+        DTO에 써있는 hireDate가 더 많아서 DTO 필드명과 동일하게 #{ hiredDate }에서 #{ hireDate }로 이름 변경-->
+        )
+    </insert>
+
+    <update id="updateEmpInfo" parameterType="com.ohgiraffers.practices.model.PublisherDTO0524">
+        UPDATE EMPLOYEE_LIST
+           SET
+                EMP_NAME = #{ name },
+                DEPT_CODE = #{ deptCode },
+                SALARY = #{ salary }
+    </update>
+
+    <delete id="deleteEmpInfo" parameterType="com.ohgiraffers.practices.model.PublisherDTO0524">
+        DELETE
+          FROM EMPLOYEE_LIST
+        WHERE EMP_ID = #{ empId}
+    </delete>
+</mapper>
