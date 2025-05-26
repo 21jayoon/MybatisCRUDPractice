@@ -22,7 +22,7 @@ public class Run {
             System.out.println("===희망출판사 직원 정보 조회===");
             System.out.println("|    1. 전체 직원 조회       |");
             System.out.println("|    2. 부서별 직원 조회      |");
-            System.out.println("|    3. 사원으로 직원 조회    |");
+            System.out.println("|    3. 사번으로 직원 조회    |");
             System.out.println("|    4. 신규 직원 추가        |");
             System.out.println("|    5. 직원 정보 업데이트     |");
             System.out.println("|    6. 직원 정보 삭제        |");
