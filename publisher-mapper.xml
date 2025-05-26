@@ -20,36 +20,36 @@
     <!-- 10. Run class에 있는 swtich문 복사해와서 select의 id와 resultMap 만들어준다-->
     <select id="readAllEmp" resultMap="empResultMap">
         SELECT *
-          FROM EMPLOYEE_LIST
+        FROM EMPLOYEE_LIST
         ORDER BY EMP_ID
     </select>
 
     <select id="readEmpByDept" resultMap="empResultMap">
         SELECT A.EMP_ID,
-               A.EMP_NAME,
-               A.EMAIL,
-               B.DEPT_TITLE,
-               A.SALARY,
-               A.HIRE_DATE
-          FROM EMPLOYEE_LIST A
-          JOIN EMPLOYEE_DEPT B ON A.DEPT_CODE = B.DEPT_ID
-         WHERE A.DEPT_CODE = #{code}
-         ORDER BY A.EMP_ID
+        A.EMP_NAME,
+        A.EMAIL,
+        B.DEPT_TITLE,
+        A.SALARY,
+        A.HIRE_DATE
+        FROM EMPLOYEE_LIST A
+        JOIN EMPLOYEE_DEPT B ON A.DEPT_CODE = B.DEPT_ID
+        WHERE A.DEPT_CODE = #{code}
+        ORDER BY A.EMP_ID
     </select>
 
     <select id="readEmpById" parameterType="_int" resultMap="empResultMap">
         <!--29. readEmpByI'D' 오타 때문에 자꾸 오류가 난 거 였음. 고침-->
         SELECT A.EMP_ID,
-               A.EMP_NAME,
-               A.EMAIL,
-               B.DEPT_TITLE,
-               A.SALARY,
-               A.HIRE_DATE
-          FROM EMPLOYEE_LIST A
-          JOIN EMPLOYEE_DEPT B ON A.DEPT_CODE = B.DEPT_ID
+        A.EMP_NAME,
+        A.EMAIL,
+        B.DEPT_TITLE,
+        A.SALARY,
+        A.HIRE_DATE
+        FROM EMPLOYEE_LIST A
+        JOIN EMPLOYEE_DEPT B ON A.DEPT_CODE = B.DEPT_ID
         <!--28.WHERE 없는 걸 발견. 추가-->
-         WHERE A.EMP_ID = #{empId}
-         ORDER BY A.EMP_ID
+        WHERE A.EMP_ID = #{empId}
+        ORDER BY A.EMP_ID
     </select>
 
     <insert id="createNewEmp" parameterType="com.ohgiraffers.practices.model.PublisherDTO0524">
@@ -79,15 +79,19 @@
 
     <update id="updateEmpInfo" parameterType="com.ohgiraffers.practices.model.PublisherDTO0524">
         UPDATE EMPLOYEE_LIST
-           SET
-                EMP_NAME = #{ name },
-                DEPT_CODE = #{ deptCode },
-                SALARY = #{ salary }
+        SET
+        EMP_NAME = #{ empName },
+<!--38. There is no getter for property named 'name' in 'class com.ohgiraffers.practices.model.PublisherDTO0524'
+ The error may exist in publisher-mapper.xml
+ EMP_NAME = #{ name }을  EMP_NAME = #{ empName }로 수정 -->
+        DEPT_CODE = #{ deptCode },
+        SALARY = #{ salary }
+        WHERE EMP_ID = #{ empId }
     </update>
 
     <delete id="deleteEmpInfo" parameterType="com.ohgiraffers.practices.model.PublisherDTO0524">
         DELETE
-          FROM EMPLOYEE_LIST
-        WHERE EMP_ID = #{ empId}
+        FROM EMPLOYEE_LIST
+        WHERE EMP_ID = #{ empId }
     </delete>
 </mapper>
