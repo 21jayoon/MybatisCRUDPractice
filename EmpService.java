@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
 
-import static com.ohgiraffers.config.Template.getSqlSession;
+import static com.ohgiraffers.practices.config.Template.getSqlSession;
 
 public class EmpService {
     private final PublisherDAO0524 publisherDAO;
@@ -54,5 +54,31 @@ public class EmpService {
         }
         sqlSession.close();
         return result > 0? true : false;
+    }
+
+    public boolean updatEmpInfo(PublisherDTO0524 dto) {
+        SqlSession sqlSession = getSqlSession();
+        int result = PublisherDAO0524.updateInfo(sqlSession, dto);
+
+        if(result > 0) {
+            sqlSession.commit();
+        } else {
+            sqlSession.rollback();
+        }
+        sqlSession.close();
+        return result > 0? true : false;
+    }
+
+    public boolean deleteEmpInfo(PublisherDTO0524 dto) {
+        SqlSession sqlSession = getSqlSession();
+        int result = PublisherDAO0524.deleteInfo(sqlSession, dto);
+
+        if(result>0) {
+            sqlSession.commit();
+        } else {
+            sqlSession.rollback();
+        }
+        sqlSession.close();
+        return result > 0? true:false;
     }
 }
